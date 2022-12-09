@@ -1,4 +1,4 @@
-# forge-takeoff.exchange.csv
+# aps-takeoff.exchange.csv
 
 [![Node.js](https://img.shields.io/badge/Node.js-14.16-blue.svg)](https://nodejs.org/)
 [![npm](https://img.shields.io/badge/npm-6.14-blue.svg)](https://www.npmjs.com/)
@@ -50,13 +50,13 @@ https://www.youtube.com/watch?v=pZlKA6NftKY
 
 ## Prerequisites
 
-1. **Forge Account**: Learn how to create a Forge Account, activate subscription and create an app at [this tutorial](http://learnforge.autodesk.io/#/account/).
-2. **ACC Account**: must be Account Admin to add the app integration. [Learn about provisioning](https://forge.autodesk.com/blog/bim-360-docs-provisioning-forge-apps).
+1. **APS Account**: Learn how to create a APS Account, activate subscription and create an app at [this tutorial](https://tutorials.autodesk.io/).
+2. **ACC Account**: must be Account Admin to add the app integration. [Learn about provisioning](https://tutorials.autodesk.io/#provision-access-in-other-products).
 3. **Autodesk Takeoff**: Create ACC project, activate Takeoff module, according to [the guide](https://knowledge.autodesk.com/support/takeoff/learn-explore/caas/CloudHelp/cloudhelp/ENU/Takeoff-GS/files/Getting-Started-Takeoff-html.html)
 4. **Node.js**: basic knowledge with [**Node.js**](https://nodejs.org/en/).
 5. **JavaScript** basic knowledge with **jQuery**
 
-For using this sample, you need an Autodesk developer credentials. Visit the [Forge Developer Portal](https://developer.autodesk.com), sign up for an account, then [create an app](https://developer.autodesk.com/myapps/create). For this new app, use **http://localhost:3000/api/forge/callback/oauth** as Callback URL. Finally take note of the **Client ID** and **Client Secret**.
+For using this sample, you need an Autodesk developer credentials. Visit the [APS Developer Portal](https://developer.autodesk.com), sign up for an account, then [create an app](https://developer.autodesk.com/myapps/create). For this new app, use **http://localhost:3000/api/aps/callback/oauth** as Callback URL. Finally take note of the **Client ID** and **Client Secret**.
 
 ## Running locally
 
@@ -64,7 +64,7 @@ Install [NodeJS](https://nodejs.org), version 14 or newer.
 
 Clone this project or download it (this `nodejs` branch only). It's recommended to install [GitHub desktop](https://desktop.github.com/). To clone it via command line, use the following (**Terminal** on MacOSX/Linux, **Git Shell** on Windows):
 
-    git clone https://github.com/Autodesk-Forge/forge-takeoff.exchange.csv
+    git clone https://github.com/autodesk-platform-services/aps-takeoff.exchange.csv
 
 Install the required packages using `npm install`.
 
@@ -75,18 +75,18 @@ Set the enviroment variables with your client ID & secret and finally start it. 
 Mac OSX/Linux (Terminal)
 
     npm install
-    export FORGE_CLIENT_ID=<<YOUR CLIENT ID FROM DEVELOPER PORTAL>>
-    export FORGE_CLIENT_SECRET=<<YOUR CLIENT SECRET>>
-    export FORGE_CALLBACK_URL=<<YOUR CALLBACK URL>>
+    export APS_CLIENT_ID=<<YOUR CLIENT ID FROM DEVELOPER PORTAL>>
+    export APS_CLIENT_SECRET=<<YOUR CLIENT SECRET>>
+    export APS_CALLBACK_URL=<<YOUR CALLBACK URL>>
 
     npm start
 
 Windows (use **Node.js command line** from Start menu)
 
     npm install
-    set FORGE_CLIENT_ID=<<YOUR CLIENT ID FROM DEVELOPER PORTAL>>
-    set FORGE_CLIENT_SECRET=<<YOUR CLIENT SECRET>>
-    set FORGE_CALLBACK_URL=<<YOUR CALLBACK URL>>
+    set APS_CLIENT_ID=<<YOUR CLIENT ID FROM DEVELOPER PORTAL>>
+    set APS_CLIENT_SECRET=<<YOUR CLIENT SECRET>>
+    set APS_CALLBACK_URL=<<YOUR CALLBACK URL>>
 
     npm start
 
@@ -106,12 +106,6 @@ Open the browser: [http://localhost:3000](http://localhost:3000).
 2. When **Items** panel is selected, the sample shows a list of packages available and display the content of the selected one in two tables. The first Table shows the data classified according to the selected options and the second table shows each individual takeoff item. At the right side it shows UI to handle **Export** based on **grouped items** or **list of all items** for the selected package or the whole project.
 3. When **Project Settings** panel is selected, the sample shows a list of classification systems available, also list information of the current selected classfication system. At the right side it shows UI to handle **Measurement System**, **Import Classification**, **Update Classification** (these first three might be disables depending on usage on your project) and **Export Classification**.
 
-## Deployment
-
-To deploy this application to Heroku, the **Callback URL** for Forge must use your `.herokuapp.com` address. After clicking on the button below, at the Heroku Create New App page, set your Client ID, Secret and Callback URL for Forge.
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Autodesk-Forge/forge-takeoff.exchange.csv)
-
 ## Known issues
 
 1. For the extraction as CSV, the fileds containing commas are replaced by blank spaces, so they're not mistaken as another column.
@@ -124,23 +118,22 @@ To deploy this application to Heroku, the **Callback URL** for Forge must use yo
 
 ## Troubleshooting
 
-1. **Cannot see my ACC projects**: Make sure to provision the Forge App Client ID within the ACC Account, [learn more here](https://forge.autodesk.com/blog/bim-360-docs-provisioning-forge-apps). This requires the Account Admin permission.
+1. **Cannot see my ACC projects**: Make sure to provision the APS App Client ID within the ACC Account, [learn more here](https://tutorials.autodesk.io/#provision-access-in-other-products). This requires the Account Admin permission.
 
 ## Further Reading
 
 **Document**:
 
-- This sample is based on [Learn Forge Tutorial](https://github.com/Autodesk-Forge/learn.forge.viewhubmodels/tree/nodejs), please check details there about the basic framework if you are not familar.
 - [Data Management API](https://developer.autodesk.com/en/docs/data/v2/overview/)
-- [ACC API](https://developer.autodesk.com/en/docs/bim360/v1/overview/) and [App Provisioning](https://forge.autodesk.com/blog/bim-360-docs-provisioning-forge-apps)
-- [Autodesk Takeoff API](https://forge.autodesk.com/en/docs/acc/v1/tutorials/takeoff/)
-- [TAKEOFF API UPDATE BLOG](https://forge.autodesk.com/blog/takeoff-api-enhancement-write-access-settings-classifications-and-packages)
+- [ACC API](https://developer.autodesk.com/en/docs/bim360/v1/overview/) and [App Provisioning](https://tutorials.autodesk.io/#provision-access-in-other-products)
+- [Autodesk Takeoff API](https://aps.autodesk.com/en/docs/acc/v1/tutorials/takeoff/)
+- [TAKEOFF API UPDATE BLOG](https://aps.autodesk.com/blog/takeoff-api-enhancement-write-access-settings-classifications-and-packages)
 - [Create ACC project, activate and configure Takeoff module](https://knowledge.autodesk.com/support/takeoff/learn-explore/caas/CloudHelp/cloudhelp/ENU/Takeoff-GS/files/Getting-Started-Takeoff-html.html)
-- [View BIM 360/ACC Models Tutorial](http://learnforge.autodesk.io/#/tutorials/viewhubmodels)
+- [View BIM 360/ACC Models Tutorial](https://tutorials.autodesk.io/tutorials/hubs-browser/)
 
 **Blogs**:
 
-- [Forge Blog](https://forge.autodesk.com/blog/autodesk-takeoff-api)
+- [APS Blog](https://aps.autodesk.com/blog/autodesk-takeoff-api)
 - [Field of View](https://fieldofviewblog.wordpress.com/), a BIM focused blog
 
 ## License
@@ -155,4 +148,4 @@ This sample is licensed under the terms of the [MIT License](http://opensource.o
 
 ## Written by
 
-João Martins [@JooPaulodeOrne2](http://twitter.com/JooPaulodeOrne2), [Developer Advocate and Support](http://forge.autodesk.com)
+João Martins [@JooPaulodeOrne2](http://twitter.com/JooPaulodeOrne2), [Developer Advocate and Support](http://aps.autodesk.com)

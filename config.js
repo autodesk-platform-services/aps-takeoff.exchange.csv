@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////
 // Copyright (c) Autodesk, Inc. All rights reserved
-// Written by Forge Partner Development
+// Written by APS Partner Development
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -15,15 +15,16 @@
 // DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 /////////////////////////////////////////////////////////////////////
+require('dotenv').config();
 
-// Autodesk Forge configuration
+// Autodesk APS configuration
 module.exports = {
     // Set environment variables or hard-code here
     credentials: {
         
-        client_id: process.env.FORGE_CLIENT_ID,
-        client_secret: process.env.FORGE_CLIENT_SECRET,
-        callback_url: process.env.FORGE_CALLBACK_URL
+        client_id: process.env.APS_CLIENT_ID,
+        client_secret: process.env.APS_CLIENT_SECRET,
+        callback_url: process.env.APS_CALLBACK_URL
     },
     scopes: {
         // Required scopes for the server-side application

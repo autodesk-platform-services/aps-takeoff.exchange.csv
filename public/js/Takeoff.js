@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////
 // Copyright (c) Autodesk, Inc. All rights reserved
-// Written by Forge Partner Development
+// Written by APS Partner Development
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -126,7 +126,7 @@ class PackageTable {
   async fetchDataAsync( takeoffData ) {
     this.dataSet = [];
     try {
-      const requestUrl = '/api/forge/takeoff/info';
+      const requestUrl = '/api/aps/takeoff/info';
       const requestData = {
         'projectId': this.projectId,
         'takeoffData': takeoffData,
@@ -237,7 +237,7 @@ class PackageTable {
   }
 
   async prepareClassificationsData(systemId){
-    const requestUrl = '/api/forge/takeoff/info';
+    const requestUrl = '/api/aps/takeoff/info';
       const requestData = {
         'projectId': this.projectId,
         'takeoffData': 'classifications',
@@ -1160,7 +1160,7 @@ class PackageTable {
     //Now we disable if it's not possible to modify the measurement system
     for(const packageId of Object.values(this.packagesDict)){
       //check if there's any package type and if so, disable measurement systems
-      const requestUrl = '/api/forge/takeoff/info';
+      const requestUrl = '/api/aps/takeoff/info';
       const requestData = {
         'projectId': this.projectId,
         'takeoffData': 'types',
@@ -1176,7 +1176,7 @@ class PackageTable {
 
   async checkClassificationsUpdate(){
     this.enableClassificationsUpdate();
-    const requestUrl = '/api/forge/takeoff/info';
+    const requestUrl = '/api/aps/takeoff/info';
     const requestData = {
       'projectId': this.projectId,
       'takeoffData': 'types',
@@ -1237,7 +1237,7 @@ class PackageTable {
   }
 
   async createPackage(packageName){
-    const requestUrl = '/api/forge/takeoff/info';
+    const requestUrl = '/api/aps/takeoff/info';
     const requestData = {
       'projectId': this.projectId,
       'takeoffData': ImportDataTypes.PACKAGE_CREATE,
@@ -1248,7 +1248,7 @@ class PackageTable {
   }
 
   async getSettings(){
-    const requestUrl = '/api/forge/takeoff/info';
+    const requestUrl = '/api/aps/takeoff/info';
     const requestData = {
       'projectId': this.projectId,
       'takeoffData': TakeoffDataType.SETTINGS,
@@ -1258,7 +1258,7 @@ class PackageTable {
   }
 
   async patchSettings(measurementSystem){
-    const requestUrl = '/api/forge/takeoff/info';
+    const requestUrl = '/api/aps/takeoff/info';
     const requestData = {
       'projectId': this.projectId,
       'takeoffData': TakeoffDataType.SETTINGS,
@@ -1269,7 +1269,7 @@ class PackageTable {
   }
 
   async createClassification(classifications, systemType, classificationName){
-    const requestUrl = '/api/forge/takeoff/info';
+    const requestUrl = '/api/aps/takeoff/info';
     const requestData = {
       'projectId': this.projectId,
       'takeoffData': ImportDataTypes.CLASSIFICATION_CREATE,
@@ -1283,7 +1283,7 @@ class PackageTable {
 
   async updateClassifications(classifications, systemId, classificationName){
 
-    const requestUrl = '/api/forge/takeoff/info';
+    const requestUrl = '/api/aps/takeoff/info';
     const requestData = {
       'projectId': this.projectId,
       'takeoffData': ImportDataTypes.CLASSIFICATIONS_IMPORT,

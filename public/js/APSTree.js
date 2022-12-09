@@ -1,6 +1,6 @@
 ﻿/////////////////////////////////////////////////////////////////////
 // Copyright (c) Autodesk, Inc. All rights reserved
-// Written by Forge Partner Development
+// Written by APS Partner Development
 //
 // Permission to use, copy, modify, and distribute this software in
 // object code form for any purpose and without fee is hereby granted,
@@ -19,7 +19,7 @@
 $(document).ready(function () {
   // first, check if current visitor is signed in
   jQuery.ajax({
-    url: '/api/forge/oauth/token',
+    url: '/api/aps/oauth/token',
     success: function (res) {
       // yes, it is signed in...
       $('#autodeskSignOutButton').show();
@@ -30,11 +30,11 @@ $(document).ready(function () {
       // prepare sign out
       $('#autodeskSignOutButton').click(function () {
         $('#hiddenFrame').on('load', function (event) {
-          location.href = '/api/forge/oauth/signout';
+          location.href = '/api/aps/oauth/signout';
         });
         $('#hiddenFrame').attr('src', 'https://accounts.autodesk.com/Authentication/LogOut');
         // learn more about this signout iframe at
-        // https://forge.autodesk.com/blog/log-out-forge
+        // https://aps.autodesk.com/blog/log-out-forge
       })
 
       // and refresh button
@@ -53,7 +53,7 @@ $(document).ready(function () {
 
   $('#autodeskSigninButton').click(function () {
     jQuery.ajax({
-      url: '/api/forge/oauth/url',
+      url: '/api/aps/oauth/url',
       success: function (url) {
         location.href = url;
       }
@@ -89,7 +89,7 @@ $(document).ready(function () {
     await toggleTab(event.target.hash);
   });
 
-  $.getJSON("/api/forge/oauth/clientid", function (res) {
+  $.getJSON("/api/aps/oauth/clientid", function (res) {
     $("#ClientID").val(res.id);
     $("#provisionAccountSave").click(function () {
       $('#provisionAccountModal').modal('toggle');
@@ -427,7 +427,7 @@ function prepareUserHubsTree() {
           'themes': { "icons": true },
           'multiple': false,
           'data': {
-              "url": '/api/forge/datamanagement',
+              "url": '/api/aps/datamanagement',
               "dataType": "json",
               'cache': false,
               'data': function (node) {
@@ -485,7 +485,7 @@ function prepareUserHubsTree() {
 
 function showUser() {
   jQuery.ajax({
-    url: '/api/forge/user/profile',
+    url: '/api/aps/user/profile',
     success: function (profile) {
       var img = '<img src="' + profile.picture + '" height="20px">';
       $('#userInfo').html(img + profile.name);

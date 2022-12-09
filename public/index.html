@@ -4,7 +4,7 @@
 <head>
   <title>ACC Takeoff inventory exchange sample</title>
   <meta charset="utf-8" />
-  <link rel="shortcut icon" href="https://github.com/Autodesk-Forge/learn.forge.viewhubmodels/raw/master/img/favicon.ico">
+  <link rel="shortcut icon" href="https://cdn.autodesk.io/favicon.ico">
   <!-- Common packages: jQuery, Bootstrap, jsTree, sweetalert2 -->
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -21,9 +21,8 @@
   
   <!-- this project files -->
   <link href="css/main.css" rel="stylesheet" />
-  <!-- <script src="js/ForgeTree.js"></script> -->
   <script src="js/Takeoff.js"></script>
-  <script src="js/ForgeTree.js"></script>
+  <script src="js/APSTree.js"></script>
 </head>
 
 <body>
@@ -33,7 +32,7 @@
       <ul class="nav navbar-nav left col-lg-8">
         <li>
           <a href="http://developer.autodesk.com" target="_blank">
-            <img alt="Autodesk Forge" src="//developer.static.autodesk.com/images/logo_forge-2-line.png" height="20">
+            <img alt="Autodesk Platform Services" src="https://cdn.autodesk.io/logo/black/stacked.png" height="20">
           </a>
         </li>
       </ul>
@@ -53,7 +52,7 @@
           <li>
             <button class="btn btn-sm btn-default" id="autodeskSigninButton" hidden>Sign In &nbsp&nbsp
               <img
-                src="https://github.com/Autodesk-Forge/bim360appstore-data.management-nodejs-transfer.storage/raw/master/www/img/autodesk_text.png"
+                src="https://cdn.autodesk.io/logo/black/logo.png"
                 height="20">
             </button>
             <button class="btn btn-sm btn-default" id="autodeskSignOutButton" hidden>Sign Out &nbsp&nbsp<span
@@ -86,7 +85,7 @@
                   <br />
                   <br />
                   <br /> You may also need to provision your<br /> ACC account for this app.<br />
-                  <a href="https://forge.autodesk.com/blog/bim-360-docs-provisioning-forge-apps">Learn more</a>.
+                  <a href="https://tutorials.autodesk.io/#provision-access-in-other-products">Learn more</a>.
                 </div>
               </div>
             </div>
@@ -290,7 +289,7 @@
             <h4 class="modal-title">Thanks for using this sample!</h4>
           </div>
           <div class="modal-body">
-            <p>To view your ACC data on this app, please authorize my Forge Client ID with your ACC
+            <p>To view your ACC data on this app, please authorize my APS Client ID with your ACC
               Account.
             </p>
             <p>
@@ -299,7 +298,7 @@
                 <span class="glyphicon glyphicon-new-window"></span>
               </button>
             </p>
-            Use this as Forge Client ID:
+            Use this as APS Client ID:
             <div class="input-group">
               <input type="text" readonly="true" aria-describedby="CopyClientID" id="ClientID" class="form-control"
                 value="" />
@@ -347,14 +346,14 @@
                 <strong>SETTINGS &gt; Apps &amp; Integrations</strong>.
                 <br />
                 <img
-                  src="https://github.com/Autodesk-Forge/learn.forge.viewhubmodels/raw/master/img/provisioning/Step1.png"
+                  src="https://cdn.autodesk.io/acc/provision/Step1.png"
                   width="500" />
               </li>
               <li>Click the
                 <strong>Add Integration</strong> button.
                 <br />
                 <img
-                  src="https://github.com/Autodesk-Forge/learn.forge.viewhubmodels/raw/master/img/provisioning/Step2.png" />
+                  src="https://cdn.autodesk.io/acc/provision/Step2.png" />
               </li>
               <li>Select
                 <strong>BIM 360 Account Administration</strong> and
@@ -365,15 +364,15 @@
                 <strong>I’m the developer</strong>, and click
                 <strong>Next</strong>.</li>
               <li>In the
-                <strong>Forge Client ID</strong> and
-                <strong>App Name</strong> fields, enter the Forge client ID and app name provided by the app retailer.
+                <strong>APS Client ID</strong> and
+                <strong>App Name</strong> fields, enter the APS client ID and app name provided by the app retailer.
               </li>
               <li>Select the
                 <strong>I have saved the Account ID information securely</strong> checkbox.</li>
               <li>Click
                 <strong>Save</strong>.<br />
                 <img
-                  src="https://github.com/Autodesk-Forge/learn.forge.viewhubmodels/raw/master/img/provisioning/Step3.png"
+                  src="https://cdn.autodesk.io/acc/provision/Step3.png"
                   width="500" />
               </li>
               <p></p>
