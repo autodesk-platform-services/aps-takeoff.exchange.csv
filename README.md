@@ -40,7 +40,7 @@
 
 You can run this sample live here:
 
-https://autodesk-takeoff-exchange.herokuapp.com
+https://autodesk-takeoff-exchange.autodesk.io
 
 and the recording demonstrating how to run here:
 
