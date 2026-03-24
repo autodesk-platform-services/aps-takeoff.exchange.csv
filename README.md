@@ -5,7 +5,7 @@
 ![Platforms](https://img.shields.io/badge/Web-Windows%20%7C%20MacOS%20%7C%20Linux-lightgray.svg)
 [![Data-Management](https://img.shields.io/badge/Data%20Management-v1-green.svg)](http://developer.autodesk.com/)
 
-[![ACC](https://img.shields.io/badge/ACC-v1-green.svg)](http://developer.autodesk.com/)
+[![Autidesk Forma](https://img.shields.io/badge/Forma-v1-green.svg)](http://developer.autodesk.com/)
 [![Takeoff](https://img.shields.io/badge/Takeoff-v1-green.svg)](http://developer.autodesk.com/)
 
 [![MIT](https://img.shields.io/badge/License-MIT-blue.svg)](http://opensource.org/licenses/MIT)
@@ -15,15 +15,15 @@
 
 ### The sample includes the following 2 main features:
 
-1. Support takeoff project set up, include setting measurement system, importing/updating/exporting takeoff classification systems from/to csv file.
+1. Support Forma takeoff project set up, include setting measurement system, importing/updating/exporting takeoff classification systems from/to csv file.
 2. Support handling takeoff items under package, include creating package, list takeoff items under current package or all packages, you can also export these information to a csv file.
 
 ### To use the sample, you can check the following tasks:
 
 #### Items:
 
-- Display Autodesk Takeoff Inventory in **readable form** or **raw form** in two tables (one for the items grouped and other for all items).
-- Export Autodesk Takeoff Inventory from **current** or **all** packages available in **readable form** or **raw form** from both tables to a CSV file.
+- Display Autodesk Forma Takeoff Inventory in **readable form** or **raw form** in two tables (one for the items grouped and other for all items).
+- Export Autodesk Forma Takeoff Inventory from **current** or **all** packages available in **readable form** or **raw form** from both tables to a CSV file.
 
 #### Project Settings
 
@@ -51,8 +51,8 @@ https://www.youtube.com/watch?v=pZlKA6NftKY
 ## Prerequisites
 
 1. **APS Account**: Learn how to create a APS Account, activate subscription and create an app at [this tutorial](https://tutorials.autodesk.io/).
-2. **ACC Account**: must be Account Admin to add the app integration. [Learn about provisioning](https://tutorials.autodesk.io/#provision-access-in-other-products).
-3. **Autodesk Takeoff**: Create ACC project, activate Takeoff module, according to [the guide](https://knowledge.autodesk.com/support/takeoff/learn-explore/caas/CloudHelp/cloudhelp/ENU/Takeoff-GS/files/Getting-Started-Takeoff-html.html)
+2. **Autodesk Forma Hub**: must be Hub Admin to add the app integration. [Learn about provisioning](https://tutorials.autodesk.io/#provision-access-in-other-products).
+3. **Autodesk Forma Takeoff**: Create Forma project, activate Takeoff module, according to [the guide](https://knowledge.autodesk.com/support/takeoff/learn-explore/caas/CloudHelp/cloudhelp/ENU/Takeoff-GS/files/Getting-Started-Takeoff-html.html)
 4. **Node.js**: basic knowledge with [**Node.js**](https://nodejs.org/en/).
 5. **JavaScript** basic knowledge with **jQuery**
 
@@ -98,7 +98,7 @@ Open the browser: [http://localhost:3000](http://localhost:3000).
 
 - **Setup the app before using the App**
 
-1. Make sure to [Create ACC project, activate and configure Takeoff module](https://knowledge.autodesk.com/support/takeoff/learn-explore/caas/CloudHelp/cloudhelp/ENU/Takeoff-GS/files/Getting-Started-Takeoff-html.html).
+1. Make sure to [Create Forma project, activate and configure Takeoff module](https://knowledge.autodesk.com/support/takeoff/learn-explore/caas/CloudHelp/cloudhelp/ENU/Takeoff-GS/files/Getting-Started-Takeoff-html.html).
 
 - **Operate with App after setup**
 
@@ -118,18 +118,18 @@ Open the browser: [http://localhost:3000](http://localhost:3000).
 
 ## Troubleshooting
 
-1. **Cannot see my ACC projects**: Make sure to provision the APS App Client ID within the ACC Account, [learn more here](https://tutorials.autodesk.io/#provision-access-in-other-products). This requires the Account Admin permission.
+1. **Cannot see my Forma projects**: Make sure to provision the APS App Client ID within the Forma Hub, [learn more here](https://tutorials.autodesk.io/#provision-access-in-other-products). This requires the Account Admin permission.
 
 ## Further Reading
 
 **Document**:
 
 - [Data Management API](https://developer.autodesk.com/en/docs/data/v2/overview/)
-- [ACC API](https://developer.autodesk.com/en/docs/bim360/v1/overview/) and [App Provisioning](https://tutorials.autodesk.io/#provision-access-in-other-products)
-- [Autodesk Takeoff API](https://aps.autodesk.com/en/docs/acc/v1/tutorials/takeoff/)
+- [Forma API](https://developer.autodesk.com/en/docs/bim360/v1/overview/) and [App Provisioning](https://tutorials.autodesk.io/#provision-access-in-other-products)
+- [Autodesk Forma Takeoff API](https://aps.autodesk.com/en/docs/acc/v1/tutorials/takeoff/)
 - [TAKEOFF API UPDATE BLOG](https://aps.autodesk.com/blog/takeoff-api-enhancement-write-access-settings-classifications-and-packages)
-- [Create ACC project, activate and configure Takeoff module](https://knowledge.autodesk.com/support/takeoff/learn-explore/caas/CloudHelp/cloudhelp/ENU/Takeoff-GS/files/Getting-Started-Takeoff-html.html)
-- [View BIM 360/ACC Models Tutorial](https://tutorials.autodesk.io/tutorials/hubs-browser/)
+- [Create Forma project, activate and configure Takeoff module](https://knowledge.autodesk.com/support/takeoff/learn-explore/caas/CloudHelp/cloudhelp/ENU/Takeoff-GS/files/Getting-Started-Takeoff-html.html)
+- [View BIM 360/Forma Models Tutorial](https://tutorials.autodesk.io/tutorials/hubs-browser/)
 
 **Blogs**:
 
