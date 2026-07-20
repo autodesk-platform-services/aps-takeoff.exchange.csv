@@ -27,9 +27,12 @@ router.get('/callback/oauth', async (req, res, next) => {
     const { code } = req.query;
     const oauth = new OAuth(req.session);
     try {
+        console.log('OAuth callback: exchanging code for tokens');
         await oauth.setCode(code);
+        console.log('OAuth callback: tokens set successfully, session:', Object.keys(req.session));
         res.redirect('/');
     } catch(err) {
+        console.error('OAuth callback error:', err);
         next(err);
     }
 });
@@ -37,7 +40,7 @@ router.get('/callback/oauth', async (req, res, next) => {
 router.get('/oauth/url', (req, res) => {
     const url =
         'https://developer.api.autodesk.com' +
-        '/authentication/v1/authorize?response_type=code' +
+        '/authentication/v2/authorize?response_type=code' +
         '&client_id=' + config.credentials.client_id +
         '&redirect_uri=' + config.credentials.callback_url +
         '&scope=' + config.scopes.internal.join(' ');

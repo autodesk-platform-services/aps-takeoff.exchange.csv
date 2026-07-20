@@ -52,6 +52,9 @@ module.exports = {
             CONTENT_VIEW:        "https://developer.api.autodesk.com/construction/takeoff/v1/projects/{0}/content-views",
             CLASSIFICATION_SYSTEMS: "https://developer.api.autodesk.com/construction/takeoff/v1/projects/{0}/classification-systems",
             ALL_CLASSIFICATIONS: "https://developer.api.autodesk.com/construction/takeoff/v1/projects/{0}/classification-systems/{1}/classifications",
+            FORMA_CLASSIFICATIONS_TREES: "https://developer.api.autodesk.com/construction/classifications/v1/projects/{0}/trees",
+            FORMA_CLASSIFICATIONS_NODES: "https://developer.api.autodesk.com/construction/classifications/v1/projects/{0}/trees/{1}/versions/tip/nodes",
+            DATA_MANAGEMENT_VERSION: "https://developer.api.autodesk.com/data/v1/projects/{0}/versions/{1}",
             LOCATIONS: "https://developer.api.autodesk.com/construction/locations/v2/projects/{0}/trees/default/nodes",
             CLASSIFICATIONS_IMPORT: "https://developer.api.autodesk.com/construction/takeoff/v1/projects/{0}/classification-systems/{1}/classifications:import",
             SETTINGS: "https://developer.api.autodesk.com/construction/takeoff/v1/projects/{0}/settings"

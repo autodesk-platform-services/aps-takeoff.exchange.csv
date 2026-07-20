@@ -141,7 +141,10 @@ Open the browser: [http://localhost:3000](http://localhost:3000).
 This sample is licensed under the terms of the [MIT License](http://opensource.org/licenses/MIT). Please see the [LICENSE](LICENSE) file for full details.
 
 # Change History
+## Improve Date: 2026-07-20
 
+- Added compatibility for the Forma Takeoff classification migration by supporting both legacy classification codes and the new Forma Classifications API response shapes.
+- Updated the client-side takeoff table logic to resolve item classifications through the owning takeoff type.
 ## Improve Date: 2022-4-18
 
 - Support setting up takeoff project, including measurement system, importing/updating/exporting takeoff classification systems from/to csv file.

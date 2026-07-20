@@ -198,9 +198,10 @@ class PackageTable {
   async prepareViewsData(rawViews){
     let viewsObject = {};
     for(const contentView of rawViews){
+      const resolvedName = contentView.name || (contentView.type === 'FILE_MODEL' ? contentView.view?.viewName : contentView.view?.sheetName) || contentView.id;
       viewsObject[contentView.id] = {
         'type': contentView.type,
-        'name': (contentView.type === 'FILE_MODEL' ? contentView.view.viewName : contentView.view.sheetName)
+        'name': resolvedName
       }
     }
     return viewsObject;
@@ -221,10 +222,16 @@ class PackageTable {
 
   async getFullClassificationMap(classificationCode, systemType = Systems.System1){
     let properClassification = this.getProperClassification(classificationCode, systemType);
+    if (!properClassification || !properClassification.firstCode) {
+      return [{ code: classificationCode, description: classificationCode }];
+    }
     let parentCode = properClassification.firstCode.parentCode;
     let fullClassification = [properClassification.firstCode];
     while(!!parentCode){
-      let newCode = this.systems[properClassification.systemType].codes.find(el => el.code == parentCode);
+      let newCode = this.systems[properClassification.systemType]?.codes?.find(el => el.code == parentCode);
+      if (!newCode) {
+        break;
+      }
       fullClassification.push(newCode);
       parentCode = newCode.parentCode;
     }
@@ -232,7 +239,10 @@ class PackageTable {
   }
 
   getProperClassification(classificationCode, systemType = Systems.System1){
-    let foundCode =  this.systems[systemType].codes.find(c => c.code == classificationCode);
+    let foundCode = this.systems[systemType]?.codes?.find(c => c.code == classificationCode);
+    if (!foundCode) {
+      return {'systemType': systemType, 'firstCode': { code: classificationCode, description: classificationCode }};
+    }
     return {'systemType': systemType, 'firstCode': foundCode};
   }
 
@@ -248,15 +258,58 @@ class PackageTable {
     return rawClassifications;
   }
 
+  getClassificationValue(ref) {
+    if (typeof ref === 'string') {
+      return ref;
+    }
+    if (!ref) {
+      return '';
+    }
+    if (typeof ref === 'object') {
+      return ref.code || ref.id || ref.name || ref.title || ref.classificationCode || '';
+    }
+    return '';
+  }
+
+  getTypeClassificationRefs(typeData) {
+    const primaryDefinition = typeData?.primaryQuantityDefinition || {};
+    const newClassifications = Array.isArray(primaryDefinition.classifications) ? primaryDefinition.classifications : [];
+    if (newClassifications.length > 0) {
+      return newClassifications;
+    }
+    return [primaryDefinition.classificationCodeOne, primaryDefinition.classificationCodeTwo].filter(Boolean);
+  }
+
+  getItemClassificationRefs(item) {
+    const typeData = this.types[item.takeoffTypeId];
+    if (!typeData) {
+      return [];
+    }
+    return this.getTypeClassificationRefs(typeData);
+  }
+
+  getPrimaryClassificationCode(item) {
+    const refs = this.getItemClassificationRefs(item);
+    return this.getClassificationValue(refs[0]) || item.primaryQuantity?.classificationCodeOne || '';
+  }
+
+  getSecondaryClassificationCode(item) {
+    const refs = this.getItemClassificationRefs(item);
+    return this.getClassificationValue(refs[1]) || item.secondaryQuantities?.[0]?.classificationCodeTwo || '';
+  }
+
   async prepareTypesData(rawTypes){
     let typesObject = {}
     rawTypes.forEach((type) => {
+      const primaryDefinition = type.primaryQuantityDefinition || {};
+      const classificationRefs = Array.isArray(primaryDefinition.classifications) ? primaryDefinition.classifications : [];
       typesObject[type.id] = {
         'name': type.name,
         'primaryQuantityDefinition': {
-          'classificationCodeOne': type.primaryQuantityDefinition.classificationCodeOne,
-          'classificationCodeTwo': type.primaryQuantityDefinition.classificationCodeTwo,
-          'unitOfMeasure': type.primaryQuantityDefinition.unitOfMeasure
+          'classifications': classificationRefs,
+          'classificationCodeOne': primaryDefinition.classificationCodeOne,
+          'classificationCodeTwo': primaryDefinition.classificationCodeTwo,
+          'unitOfMeasure': primaryDefinition.unitOfMeasure
         }
       }
     })
@@ -274,12 +327,14 @@ class PackageTable {
       'rawItemsSecondaryQ': {}
     };
     for(const item of rawItems){
+      const primaryClassification = this.getPrimaryClassificationCode(item);
+      const secondaryClassification = this.getSecondaryClassificationCode(item);
       //adjust raw items
       itemsObject.rawItemsPrimaryQ[item.id] = {
         'ID': item.id,
         'Takeoff Name': item.type + ' TYPE',
-        'Classification 1': item.primaryQuantity.classificationCodeOne,
-        'Classification 2': item.primaryQuantity.classificationCodeTwo,
+        'Classification 1': primaryClassification || 'Unassigned',
+        'Classification 2': secondaryClassification || 'Unassigned',
         'Document': item.contentView.id,
         'Location': item.locationId,
         // 'ID': item.id,
@@ -288,14 +343,14 @@ class PackageTable {
         'Quantity': item.primaryQuantity.quantity,
         'Unit of Measure': item.primaryQuantity.unitOfMeasure,
       };
-      let secondaryQuantities = item.secondaryQuantities[0];
+      let secondaryQuantities = item.secondaryQuantities?.[0];
       //now we remove those unassigned by 2 classifications
       if(!!secondaryQuantities){
         itemsObject.rawItemsSecondaryQ[item.id] = {
           'ID': item.id,
           'Takeoff Name': item.type + ' TYPE',
-          'Classification 1': secondaryQuantities ? secondaryQuantities.classificationCodeOne : 'Unassigned',
-          'Classification 2': secondaryQuantities ? secondaryQuantities.classificationCodeTwo : 'Unassigned',
+          'Classification 1': secondaryQuantities ? (secondaryQuantities.classificationCodeOne || primaryClassification || 'Unassigned') : 'Unassigned',
+          'Classification 2': secondaryQuantities ? (secondaryQuantities.classificationCodeTwo || secondaryClassification || 'Unassigned') : 'Unassigned',
           'Document': item.contentView.id,
           'Location': item.locationId,
           // 'ID': item.id,
@@ -354,43 +409,45 @@ class PackageTable {
       itemsObject.byContentView[item.contentView.id].byTakeoffType[item.takeoffTypeId].quantity += item.primaryQuantity.quantity;
 
       //adjust by Classification System 1 from PrimaryQuantity
-      if (itemsObject.byClassificationSystem1[item.primaryQuantity.classificationCodeOne] == null){
-        itemsObject.byClassificationSystem1[item.primaryQuantity.classificationCodeOne] = {
+      if (itemsObject.byClassificationSystem1[primaryClassification] == null){
+        itemsObject.byClassificationSystem1[primaryClassification] = {
           'byTakeoffType': {},
           'count': 0,
           'quantity': 0,
           'unitOfMeasure': item.primaryQuantity.unitOfMeasure,
-          'classificationCodeOne': item.primaryQuantity.classificationCodeOne,
+          'classificationCodeOne': primaryClassification,
           // 'contentView': item.contentView.id
         }
       };
-      itemsObject.byClassificationSystem1[item.primaryQuantity.classificationCodeOne].count += 1;
-      itemsObject.byClassificationSystem1[item.primaryQuantity.classificationCodeOne].quantity += item.primaryQuantity.quantity;
-      if (itemsObject.byClassificationSystem1[item.primaryQuantity.classificationCodeOne].byTakeoffType[item.takeoffTypeId] == null){
-        itemsObject.byClassificationSystem1[item.primaryQuantity.classificationCodeOne].byTakeoffType[item.takeoffTypeId] = this.getItemObject(item);
+      itemsObject.byClassificationSystem1[primaryClassification].count += 1;
+      itemsObject.byClassificationSystem1[primaryClassification].quantity += item.primaryQuantity.quantity;
+      if (itemsObject.byClassificationSystem1[primaryClassification].byTakeoffType[item.takeoffTypeId] == null){
+        itemsObject.byClassificationSystem1[primaryClassification].byTakeoffType[item.takeoffTypeId] = this.getItemObject(item);
       }
-      itemsObject.byClassificationSystem1[item.primaryQuantity.classificationCodeOne].byTakeoffType[item.takeoffTypeId].count += 1;
-      itemsObject.byClassificationSystem1[item.primaryQuantity.classificationCodeOne].byTakeoffType[item.takeoffTypeId].quantity += item.primaryQuantity.quantity;
+      itemsObject.byClassificationSystem1[primaryClassification].byTakeoffType[item.takeoffTypeId].count += 1;
+      itemsObject.byClassificationSystem1[primaryClassification].byTakeoffType[item.takeoffTypeId].quantity += item.primaryQuantity.quantity;
 
       //adjust by Classification System 2 from SecondaryQuantities
-      for(const secondaryQuantity of item.secondaryQuantities){
-        if (itemsObject.byClassificationSystem2[secondaryQuantity.classificationCodeTwo] == null){
-          itemsObject.byClassificationSystem2[secondaryQuantity.classificationCodeTwo] = {
+      const secondaryEntries = item.secondaryQuantities || [];
+      for(const secondaryQuantity of secondaryEntries){
+        const secondaryCode = secondaryQuantity.classificationCodeTwo || secondaryClassification || secondaryClassification;
+        if (itemsObject.byClassificationSystem2[secondaryCode] == null){
+          itemsObject.byClassificationSystem2[secondaryCode] = {
             'byTakeoffType': {},
             'count': 0,
             'quantity': 0,
             'unitOfMeasure': secondaryQuantity.unitOfMeasure,
-            'classificationCodeTwo': secondaryQuantity.classificationCodeTwo,
-            'classificationCodeOne': item.primaryQuantity.classificationCodeOne
+            'classificationCodeTwo': secondaryCode,
+            'classificationCodeOne': primaryClassification
           }
         };
-        itemsObject.byClassificationSystem2[secondaryQuantity.classificationCodeTwo].count += 1;
-        itemsObject.byClassificationSystem2[secondaryQuantity.classificationCodeTwo].quantity += secondaryQuantity.quantity;
-        if (itemsObject.byClassificationSystem2[secondaryQuantity.classificationCodeTwo].byTakeoffType[item.takeoffTypeId] == null){
-          itemsObject.byClassificationSystem2[secondaryQuantity.classificationCodeTwo].byTakeoffType[item.takeoffTypeId] = this.getItemObject(item);
+        itemsObject.byClassificationSystem2[secondaryCode].count += 1;
+        itemsObject.byClassificationSystem2[secondaryCode].quantity += secondaryQuantity.quantity;
+        if (itemsObject.byClassificationSystem2[secondaryCode].byTakeoffType[item.takeoffTypeId] == null){
+          itemsObject.byClassificationSystem2[secondaryCode].byTakeoffType[item.takeoffTypeId] = this.getItemObject(item);
         }
-        itemsObject.byClassificationSystem2[secondaryQuantity.classificationCodeTwo].byTakeoffType[item.takeoffTypeId].count += 1;
-        itemsObject.byClassificationSystem2[secondaryQuantity.classificationCodeTwo].byTakeoffType[item.takeoffTypeId].quantity += secondaryQuantity.quantity;
+        itemsObject.byClassificationSystem2[secondaryCode].byTakeoffType[item.takeoffTypeId].count += 1;
+        itemsObject.byClassificationSystem2[secondaryCode].byTakeoffType[item.takeoffTypeId].quantity += secondaryQuantity.quantity;
       }
     }
 
@@ -402,7 +459,7 @@ class PackageTable {
       'count': 0,
       'quantity': 0,
       'unitOfMeasure': item.primaryQuantity.unitOfMeasure,
-      'classificationCode': item.primaryQuantity.classificationCodeOne
+      'classificationCode': this.getPrimaryClassificationCode(item)
     }
   }
 
@@ -1188,7 +1245,10 @@ class PackageTable {
         requestData.packageId = this.packagesDict[currentPackage.name];
         let rawTypes = await apiClientAsync(requestUrl, requestData);
         rawTypes.forEach((type) => {
-          if(!!type.primaryQuantityDefinition.classificationCodeOne || !!type.primaryQuantityDefinition.classificationCodeTwo){
+          const primaryDefinition = type.primaryQuantityDefinition || {};
+          const hasLegacyCodes = !!primaryDefinition.classificationCodeOne || !!primaryDefinition.classificationCodeTwo;
+          const hasNewClassifications = Array.isArray(primaryDefinition.classifications) && primaryDefinition.classifications.length > 0;
+          if(hasLegacyCodes || hasNewClassifications){
             // disable update classifications
             this.disableClassificationsUpdate();
             ishidden = true;

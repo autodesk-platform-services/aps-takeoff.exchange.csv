@@ -51,6 +51,7 @@ function apiClientCallAsync( requestMethod, url,  access_token, body=null, newOf
                     body: body,
                     json: true
                 };
+                break;
             case 'patch':
                 options = {
                     method: requestMethod,
@@ -94,7 +95,8 @@ function apiClientCallAsync( requestMethod, url,  access_token, body=null, newOf
                     console.log('error code: ' + response.statusCode + ' response message: ' + response.statusMessage);
                     reject({
                         statusCode: response.statusCode,
-                        statusMessage: response.statusMessage
+                        statusMessage: response.statusMessage,
+                        body: resp
                     });
                 } else {
                     resolve({
